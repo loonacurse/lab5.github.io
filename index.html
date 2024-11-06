@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сельніцина Дар'я ІК-21</title>
+</head>
+<body>
+    <script src="script.js"></script>
+    <form id="myForm">
+        <label>ПІБ: <input type="text" id="name"></label><br>
+        <label>Телефон: <input type="text" id="phone"></label><br>
+        <label>ID-карта: <input type="text" id="idCard"></label><br>
+        <label>Факультет: <input type="text" id="faculty"></label><br>
+        <label>Дата народження: <input type="text" id="birthDate"></label><br>
+        <button type="button" onclick="validateForm()">Підтвердити</button>
+      </form>
+      <table border="1" id="outputTable" style="margin-top: 20px; display: none; border-collapse: collapse; ">
+        <tr>
+          <th>ПІБ</th>
+          <th>Телефон</th>
+          <th>ID-карта</th>
+          <th>Факультет</th>
+          <th>Дата народження</th>
+        </tr>
+        <tr>
+          <td id="outputName"></td>
+          <td id="outputPhone"></td>
+          <td id="outputIdCard"></td>
+          <td id="outputFaculty"></td>
+          <td id="outputBirthDate"></td>
+        </tr>
+      </table>
+
+        <table id="myTable" border="1" style="border-collapse: collapse; width: 300px; margin-top: 40px;">
+        
+        <script>
+          let tableHTML = '';
+          for (let i = 0; i < 6; i++) {
+            tableHTML += '<tr>';
+            for (let j = 0; j < 6; j++) {
+              let cellNumber = i * 6 + j + 1;
+              tableHTML += `<td id="cell-${cellNumber}" onclick="changeColor(${cellNumber})"
+                            onmouseover="randomColor(${cellNumber})"
+                            ondblclick="changeDiagonalColor()">${cellNumber}</td>`;
+            }
+            tableHTML += '</tr>';
+          }
+          document.write(tableHTML);
+        </script>
+      </table>
+      
+    <script>
+        function randomColor(cellNumber) {
+        if (cellNumber === 33) {
+            document.getElementById(`cell-${cellNumber}`).style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        }
+    }
+    let selectedCell = null;
+    
+    function changeDiagonalColor() {
+        for (let i = 0; i < 6; i++) {
+        let cell = document.getElementById(`cell-${i * 6 + i + 1}`);
+        cell.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+    }
+
+    function changeColor(cellNumber) {
+            selectedCell = document.getElementById(`cell-${cellNumber}`);
+            const colorPicker = document.getElementById("colorPicker");
+            colorPicker.style.display = "block";
+            colorPicker.click(); // Открываем палитру
+        }
+
+        function applyColor() {
+            const colorPicker = document.getElementById("colorPicker");
+            if (selectedCell) {
+                selectedCell.style.backgroundColor = colorPicker.value;
+            }
+            colorPicker.style.display = "none";
+        }
+    </script>
+    <input type="color" id="colorPicker" class="color-picker" onchange="applyColor()" />
+</body>
+</html>
